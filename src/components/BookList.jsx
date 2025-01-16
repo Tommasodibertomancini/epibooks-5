@@ -1,8 +1,6 @@
 import SingleBook from './SingleBook';
 import CommentArea from './CommentArea';
 import { Col, Form, Row } from 'react-bootstrap';
-
-import '/public/assets/css/bookList.css';
 import { useState } from 'react';
 
 const BookList = (props) => {

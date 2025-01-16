@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Card } from 'react-bootstrap';
-import '/public/assets/css/singleBook.css';
+
 
 const SingleBook = (props) => {
   // state = {
