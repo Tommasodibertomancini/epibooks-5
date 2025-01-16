@@ -1,22 +1,22 @@
-import { useEffect, useState } from 'react'
-import { Button, Form } from 'react-bootstrap'
+import { useEffect, useState } from 'react';
+import { Button, Form } from 'react-bootstrap';
 
 const AddComment = ({ asin }) => {
   const [comment, setComment] = useState({
     comment: '',
     rate: 1,
     elementId: null,
-  })
+  });
 
   useEffect(() => {
     setComment((c) => ({
       ...c,
       elementId: asin,
-    }))
-  }, [asin])
+    }));
+  }, [asin]);
 
   const sendComment = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
       let response = await fetch(
         'https://striveschool-api.herokuapp.com/api/comments',
@@ -25,33 +25,34 @@ const AddComment = ({ asin }) => {
           body: JSON.stringify(comment),
           headers: {
             'Content-type': 'application/json',
-            Authorization: 'Bearer inserisci-qui-il-tuo-token',
+            Authorization:
+              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzU4NzEyNDA3ZGI3MzAwMTU0MDYzYjAiLCJpYXQiOjE3MzY3Nzg0NjUsImV4cCI6MTczNzk4ODA2NX0.r3kLDKA63qCYtNEGvz88POLtNHA99AlVa785vNMDRWA',
           },
         }
-      )
+      );
       if (response.ok) {
-        alert('Recensione inviata!')
+        alert('Recensione inviata!');
         setComment({
           comment: '',
           rate: 1,
           elementId: null,
-        })
+        });
       } else {
-        throw new Error('Qualcosa è andato storto')
+        throw new Error('Qualcosa è andato storto');
       }
     } catch (error) {
-      alert(error)
+      alert(error);
     }
-  }
+  };
 
   return (
-    <div className="my-3">
+    <div className='my-3'>
       <Form onSubmit={sendComment}>
-        <Form.Group className="mb-2">
+        <Form.Group className='mb-2'>
           <Form.Label>Recensione</Form.Label>
           <Form.Control
-            type="text"
-            placeholder="Inserisci qui il testo"
+            type='text'
+            placeholder='Inserisci qui il testo'
             value={comment.comment}
             onChange={(e) =>
               setComment({
@@ -61,10 +62,10 @@ const AddComment = ({ asin }) => {
             }
           />
         </Form.Group>
-        <Form.Group className="mb-2">
+        <Form.Group className='mb-2'>
           <Form.Label>Valutazione</Form.Label>
           <Form.Control
-            as="select"
+            as='select'
             value={comment.rate}
             onChange={(e) =>
               setComment({
@@ -80,12 +81,12 @@ const AddComment = ({ asin }) => {
             <option>5</option>
           </Form.Control>
         </Form.Group>
-        <Button variant="primary" type="submit">
+        <Button variant='primary' type='submit'>
           Invia
         </Button>
       </Form>
     </div>
-  )
-}
+  );
+};
 
-export default AddComment
+export default AddComment;
