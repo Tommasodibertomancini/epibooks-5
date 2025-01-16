@@ -1,19 +1,24 @@
 import { useEffect, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 
-const AddComment = ({ asin }) => {
-  const [comment, setComment] = useState({
+const AddComment = (props) => {
+  // state = {
+  //   comment: {
+  //     comment: '',
+  //     rate: 1,
+  //     elementId: this.props.asin,
+  //   },
+  // };
+
+  const initialComment = {
     comment: '',
     rate: 1,
-    elementId: null,
-  });
+    elementId: props.asin,
+  };
 
-  useEffect(() => {
-    setComment((c) => ({
-      ...c,
-      elementId: asin,
-    }));
-  }, [asin]);
+  const [comment, setComment] = useState({
+    ...initialComment,
+  });
 
   const sendComment = async (e) => {
     e.preventDefault();
@@ -26,17 +31,16 @@ const AddComment = ({ asin }) => {
           headers: {
             'Content-type': 'application/json',
             Authorization:
-              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzU4NzEyNDA3ZGI3MzAwMTU0MDYzYjAiLCJpYXQiOjE3MzY3Nzg0NjUsImV4cCI6MTczNzk4ODA2NX0.r3kLDKA63qCYtNEGvz88POLtNHA99AlVa785vNMDRWA',
+              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzU4NzEwODA3ZGI3MzAwMTU0MDYzYWUiLCJpYXQiOjE3MzY3NzM5MjIsImV4cCI6MTczNzk4MzUyMn0.OVzrySUHhFDCw6DReVLpW87EXfMqm4h_3z9n3hgH3jI',
           },
         }
       );
       if (response.ok) {
         alert('Recensione inviata!');
         setComment({
-          comment: '',
-          rate: 1,
-          elementId: null,
+          ...initialComment,
         });
+        props.putNewUpdate();
       } else {
         throw new Error('Qualcosa è andato storto');
       }
@@ -45,9 +49,17 @@ const AddComment = ({ asin }) => {
     }
   };
 
+  useEffect(() => {
+    setComment({ ...initialComment });
+  }, [props.asin]);
+
   return (
     <div className='my-3'>
-      <Form onSubmit={sendComment}>
+      <Form
+        onSubmit={(e) => {
+          sendComment(e);
+        }}
+      >
         <Form.Group className='mb-2'>
           <Form.Label>Recensione</Form.Label>
           <Form.Control
